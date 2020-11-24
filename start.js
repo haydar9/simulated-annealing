@@ -17,15 +17,25 @@ var map = {
     'N' : { 'A': 9, 'B': 1, 'C': 3, 'D': 1, 'E': 2, 'F': 2, 'G': 1, 'H': 7, 'I': 6, 'J': 5, 'K': 8, 'L': 4, 'M': 9, 'N': 0, 'O': 7,},
     'O' : { 'A': 3, 'B': 9, 'C': 4, 'D': 3, 'E': 5, 'F': 5, 'G': 4, 'H': 8, 'I': 4, 'J': 2, 'K': 1, 'L': 3, 'M': 6, 'N': 7, 'O': 0,}
 };
-console.log(map);
-console.table(map);
-console.log("D[A,B]=" + map['A']['B']);
+
+//console.table(map);
+
+var originCity = 'A';
 
 var result = tsp({
-    originCity: "A",
+    originCity: originCity,
     distanceMatrix: map,
-    tempMax: 15,
+    tempMax: 400,
     tempMin: 0.001,
-    coolingFactor: 0.001
+    coolingFactor: 0.999,
+    dataStep: 200
 });
 
+console.log("Solution path: " + result.bestState);
+console.log("Solution path distance: " + result.bestEnergy);
+console.log("Solution iterations: " + result.iterations.length);
+console.log("Solution current distances length: " + result.currentEnergies.length);
+console.log("Solution current best distances length: " + result.currentBestEnergies.length);
+
+console.log("Solution current distances length: " + result.currentEnergies.length);
+console.log("Solution current best distances length: " + result.currentBestEnergies.length);

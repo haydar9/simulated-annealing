@@ -5,6 +5,7 @@ module.exports = function ({
     newState,
     getTemp,
     getEnergy,
+    dataStep = 1
 } = {}) {
     if (!isFunction(newState)) {
         throw new Error('newState is not function.');
@@ -15,6 +16,12 @@ module.exports = function ({
     if (!isFunction(getEnergy)) {
         throw new Error('getEnergy is not function.');
     }
+
+    var count = 0;
+    var stepCounter = 0;
+    var iterations = [];
+    var currentEnergies = [];
+    var currentBestEnergies = [];
 
     var currentTemp = tempMax;
     
@@ -27,7 +34,7 @@ module.exports = function ({
     while (currentTemp > tempMin) {
         let currentState = newState(lastState);
         let currentEnergy = getEnergy(currentState);
-
+        
         if (currentEnergy < lastEnergy) {
             lastState = currentState;
             lastEnergy = currentEnergy;
@@ -43,8 +50,17 @@ module.exports = function ({
             bestEnergy = lastEnergy;
         }
         currentTemp = getTemp(currentTemp);
+
+        stepCounter++;
+        count++;
+        if(stepCounter == dataStep) {
+            stepCounter = 0;
+            iterations.push(count);
+            currentBestEnergies.push(bestEnergy);
+            currentEnergies.push(currentEnergy);
+        }
     }
-    return bestState;
+    return {bestState: bestState, bestEnergy: bestEnergy, iterations: iterations, currentEnergies: currentEnergies, currentBestEnergies: currentBestEnergies};
 }
 
 function isFunction(functionToCheck) {
