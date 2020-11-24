@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node start.js",
     "test": "mocha --reporter spec"
   },
   "author": "Sergey Averyanov",
